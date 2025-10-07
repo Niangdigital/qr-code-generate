@@ -25,7 +25,7 @@
       
       <!-- Pied de page -->
       <div class="footer">
-        <p>Musée des civilisations africaines</p>
+        <p>Musée des Civilisations Noires</p>
       </div>
     </div>
   </div>
