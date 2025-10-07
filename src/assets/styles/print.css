@@ -1,0 +1,83 @@
+/* ===== STYLES D'IMPRESSION A4 ===== */
+
+@media print {
+  /* Reset général */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    /*color-adjust: exact !important;*/
+  }
+  
+  /* Cache tout sauf le layout d'impression */
+  body * {
+    visibility: hidden;
+  }
+  
+  .print-layout,
+  .print-layout * {
+    visibility: visible;
+  }
+  
+  .print-layout {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  /* Format A4 strict */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+  
+  /* Cache les éléments non imprimables */
+  header,
+  footer,
+  .actions,
+  button,
+  .form-section,
+  .hero-section,
+  nav {
+    display: none !important;
+  }
+  
+  /* Optimisation des sauts de page */
+  .a4-container {
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+  
+  .qr-container,
+  .print-title,
+  .print-description {
+    page-break-inside: avoid;
+  }
+  
+  /* Amélioration de la qualité d'impression */
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+  
+  /* Préserve les couleurs */
+  .header-decoration,
+  .instructions {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ===== STYLES POUR APERÇU ÉCRAN ===== */
+@media screen {
+  .print-layout {
+    /* Simulation ombre papier */
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  }
+}
