@@ -6,7 +6,7 @@
         <h2>Remplissez les Informations</h2>
         
         <div class="form-group">
-          <label for="qr-data">Veuller mettre le contenu du QR Code *</label>
+          <label for="qr-data">Veuiller mettre le contenu du QR Code *</label>
           <input
             id="qr-data"
             v-model="formData.qrData"
@@ -18,14 +18,18 @@
         </div>
 
         <div class="form-group">
-          <label for="title">Ajoutez un code</label>
+          <label for="title">Ajoutez un code *</label>
           <input
             id="title"
             v-model="formData.title"
             type="text"
-            placeholder="Ex: Tfd-123"
+            placeholder="Ex: Artwork-1"
             maxlength="100"
+            @blur="validateArtworkFormat"
+            @input="formatArtworkCode"
           />
+          <span v-if="titleError" class="error">{{ titleError }}</span>
+          <span v-else class="hint">Format requis: Artwork-Nombre (ex: Artwork-1, Artwork-123)</span>
         </div>
 
         <div class="form-group">
@@ -44,7 +48,7 @@
       <!-- Aperçu -->
       <div class="preview-section">
         <QRPreview 
-          v-if="qrCodeUrl"
+          v-if="qrCodeUrl && isValidArtworkFormat"
           :qrCodeUrl="qrCodeUrl"
           :title="formData.title"
           :description="formData.description"
@@ -64,9 +68,9 @@
 </template>
 
 <script setup>
-import { reactive, watch } from 'vue'
-import QRPreview from './QRPreview.vue'
-import { useQRCode } from '../composables/useQRCode'
+import { reactive, watch, ref, computed } from 'vue'
+import QRPreview from '../components/QRPreview.vue'
+import { useQRCode } from '../composables/useQRCode.js'
 
 const { qrCodeUrl, isGenerating, error, generateQRCode } = useQRCode()
 
@@ -76,12 +80,57 @@ const formData = reactive({
   description: ''
 })
 
-// Génération automatique quand qrData change
+const titleError = ref('')
+
+// Expression régulière pour valider le format Artwork-Nombre
+const artworkRegex = /^Artwork-\d+$/
+
+// Vérifie si le format est valide
+const isValidArtworkFormat = computed(() => {
+  return artworkRegex.test(formData.title)
+})
+
+// Valide le format au blur
+const validateArtworkFormat = () => {
+  if (!formData.title.trim()) {
+    titleError.value = 'Le code est requis'
+    return false
+  }
+  
+  if (!isValidArtworkFormat.value) {
+    titleError.value = 'Format invalide. Utilisez: Artwork-Nombre (ex: Artwork-1)'
+    return false
+  }
+  
+  titleError.value = ''
+  return true
+}
+
+// Aide à la saisie du format
+const formatArtworkCode = (event) => {
+  titleError.value = ''
+  
+  const value = event.target.value
+  
+  // Si l'utilisateur tape juste un nombre, on ajoute automatiquement "Artwork-"
+  if (/^\d+$/.test(value)) {
+    formData.title = `Artwork-${value}`
+  }
+}
+
+// Génération automatique quand qrData change et que le format est valide
 watch(() => formData.qrData, async (newValue) => {
-  if (newValue.trim()) {
+  if (newValue.trim() && isValidArtworkFormat.value) {
     await generateQRCode(newValue)
   }
 }, { immediate: false })
+
+// Regénère le QR code quand le titre change et est valide
+watch(() => formData.title, async () => {
+  if (formData.qrData.trim() && isValidArtworkFormat.value) {
+    await generateQRCode(formData.qrData)
+  }
+})
 </script>
 
 <style scoped>
@@ -155,6 +204,10 @@ watch(() => formData.qrData, async (newValue) => {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+.form-group input.invalid {
+  border-color: #dc2626;
+}
+
 .form-group textarea {
   resize: none;
   min-height: 70px;
@@ -173,6 +226,15 @@ watch(() => formData.qrData, async (newValue) => {
   color: #dc2626;
   font-size: 0.8125rem;
   margin-top: 0.375rem;
+  font-weight: 500;
+}
+
+.hint {
+  display: block;
+  color: #6b7280;
+  font-size: 0.8125rem;
+  margin-top: 0.375rem;
+  font-style: italic;
 }
 
 /* Section preview */

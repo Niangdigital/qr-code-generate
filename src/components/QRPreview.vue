@@ -37,8 +37,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import PrintLayout from './PrintLayout.vue'
-import { usePrintLayout } from '../composables/usePrintLayout'
+import PrintLayout from '../components/PrintLayout.vue'
+import { usePrintLayout } from '../composables/usePrintLayout.js'
 
 const props = defineProps({
   qrCodeUrl: {
