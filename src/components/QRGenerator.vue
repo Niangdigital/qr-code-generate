@@ -23,13 +23,13 @@
             id="title"
             v-model="formData.title"
             type="text"
-            placeholder="Ex: Artwork-1"
+            placeholder="Ex: artwork-1"
             maxlength="100"
             @blur="validateArtworkFormat"
             @input="formatArtworkCode"
           />
           <span v-if="titleError" class="error">{{ titleError }}</span>
-          <span v-else class="hint">Format requis: Artwork-Nombre (ex: Artwork-1, Artwork-123)</span>
+          <span v-else class="hint">Format requis: artwork-Nombre (ex: artwork-1, artwork-123)</span>
         </div>
 
         <div class="form-group">
@@ -82,8 +82,8 @@ const formData = reactive({
 
 const titleError = ref('')
 
-// Expression régulière pour valider le format Artwork-Nombre
-const artworkRegex = /^Artwork-\d+$/
+// Expression régulière pour valider le format artwork-Nombre
+const artworkRegex = /^artwork-\d+$/
 
 // Vérifie si le format est valide
 const isValidArtworkFormat = computed(() => {
@@ -112,9 +112,9 @@ const formatArtworkCode = (event) => {
   
   const value = event.target.value
   
-  // Si l'utilisateur tape juste un nombre, on ajoute automatiquement "Artwork-"
+  // Si l'utilisateur tape juste un nombre, on ajoute automatiquement "artwork-"
   if (/^\d+$/.test(value)) {
-    formData.title = `Artwork-${value}`
+    formData.title = `artwork-${value}`
   }
 }
 

@@ -1,9 +1,9 @@
 /* ===== VARIABLES ET RESET MODERNE ===== */
 :root {
   /* Couleurs professionnelles pour musée */
-  --color-primary: #2c5530; /*(#4a7856)*/
-  --color-primary-dark: #1e3a23;
-  --color-primary-light: #4a7856;
+ --color-primary: #a0522d;        /* Couleur principale - sienna */
+--color-primary-dark: #733b20;   /* Version plus foncée */
+--color-primary-light: #c17a4a;  /* Version plus claire */
   --color-secondary: #d4af37;
   --color-accent: #8b4513; /*#a0522d*/
   --color-beige: #f5f1e8;

@@ -117,6 +117,7 @@ const props = defineProps({
   width: 220px;
   height: 220px;
   max-width: 100%;
+  color: black;
 }
 
 .print-description {
@@ -175,6 +176,7 @@ const props = defineProps({
   .qr-image {
     width: 180px;
     height: 180px;
+    color: #000;
   }
   
   .print-description {
@@ -195,6 +197,7 @@ const props = defineProps({
   .qr-image {
     width: 160px;
     height: 160px;
+    color: #000;
   }
   
   .print-title {
@@ -273,12 +276,15 @@ const props = defineProps({
     border: 1px solid #ccc !important;
     border-radius: 4mm !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    color:#000;
   }
   
   .qr-image {
     width: 80mm !important;
     height: 80mm !important;
     max-width: none !important;
+    color: #000 !important  ;
+    
   }
   
   .print-description {
